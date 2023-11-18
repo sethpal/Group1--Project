@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 public class RabbitMQJsonProducerService {
 
 
-    //private static final Logger LOGGER= LoggerFactory.getLogger(RabbitMQJsonProducerService.class);
+    private static final Logger LOGGER= LoggerFactory.getLogger(RabbitMQJsonProducerService.class);
     @Value("${rabbitmq.exchange.name}")
     private String exchange;
     @Value("${rabbitmq.json.routing.key}")
@@ -32,7 +32,7 @@ public class RabbitMQJsonProducerService {
     public String sendJsonMessage(NotificationRequestDto user)
     {
         String message="Notification sent to registered email and mobile, kindly check your email/mobile";
-        //LOGGER.info(String.format(message+"--> %s", user.toString()));
+        LOGGER.info(String.format(message+"--> %s", user.toString()));
         rabbitTemplate.convertAndSend(exchange,jsonRoutingKey,user);
         return message;
     }

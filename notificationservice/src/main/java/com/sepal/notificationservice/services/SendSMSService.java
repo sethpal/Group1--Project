@@ -16,22 +16,22 @@ public class SendSMSService {
     @Autowired
     TwilioConfig twilioConfig;
 
-    //private static final Logger LOGGER= LoggerFactory.getLogger(SendSMSService.class);
+    private static final Logger LOGGER= LoggerFactory.getLogger(SendSMSService.class);
 
     public NotificationResponseDto sendSMS(String to, String sms) {
         NotificationResponseDto notificationResponseDto=new NotificationResponseDto();
         try {
             Message  message = Message
                     .creator(new PhoneNumber(to)
-                            , new PhoneNumber(twilioConfig.decodeValue(twilioConfig.getFromNumber()))
+                            , new PhoneNumber(twilioConfig.getFromNumber())
                             , sms)
                     .create();
             notificationResponseDto.setStatus(String.valueOf(Status.DELIVERED));
-            //LOGGER.info("SMS Sent successfully....." + message.getStatus());
+            LOGGER.info("SMS Sent successfully....." + message.getStatus());
         }catch (Exception ex)
         {
             notificationResponseDto.setStatus(String.valueOf(Status.FAILED));
-           // LOGGER.error("Kindly check if you mobile number is in verified account.....Error-->" + ex.getMessage());
+            LOGGER.error("Kindly check if you mobile number is in verified account.....Error-->" + ex.getMessage());
         }
     return notificationResponseDto;
     }
